@@ -143,7 +143,6 @@ class PigGame:
                     print(f"\t{currentPlayer} Turn Score after roll: ", self._playersTurnScore)
                     print(f"\tIf {currentPlayer} holds they will have {currentPlayer.score + self._playersTurnScore}\n")
 
-
             if self._playersTurnScore != 1 and self._playersTurnScore != 0:
                 currentPlayer.score = currentPlayer.score + self._playersTurnScore
 
@@ -152,11 +151,6 @@ class PigGame:
                       
             time.sleep(2)
             current_player_index = (current_player_index + 1) % numOfPlayers
-
-            # print("\n\t**************************************************************"
-            # # f"\n\t\t     {repr(currentPlayer)}"
-            # "\n\t**************************************************************")
-
             currentPlayer = self._players[current_player_index]
             self._playersTurnScore = 0
             self.gameStats()
