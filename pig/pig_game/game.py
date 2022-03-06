@@ -14,7 +14,8 @@
 
 import random
 import time
-from pig_game import dice, player
+from pig_game import dice
+from pig_game import player
 
 
 class PigGame:
@@ -64,19 +65,23 @@ class PigGame:
     def game_state(self):
         """Game state method"""
         print(
-            "\n\t*********************************************************",
-            "******\n\t\t\t\tGAME STATE",
+            "\n\t",
+            "***************************************************************",
+            "\n\t\t\t\tGAME STATE",
         )
         for plyr in self._players:
             print(f"\n\t\t\tPlayer {plyr.name} has a score of {plyr.score}.")
-        print("\n\t*********************************************************",
-              "******")
+        print(
+            "\n\t",
+            "***************************************************************") 
+        time.sleep(1)
 
     def run(self):
         """Main piggame run function"""
 
         # Ask user how many players are going to play?
-        print("\tHow many players would like to play? ", end=" ")
+        print("\tHow many players would like to play? ", 
+              end=" ")
         num_of_players = int(f"{input()}")
 
         # Create Die class instance to use for gameplay
@@ -95,9 +100,9 @@ class PigGame:
             )
             print(
                 f"\n\t{self._players[0].name}, you will be playing against ",
-                f"AI {self._players[1].name}",
-                "!\n\n\n\t**************************************************",
-                "*************\n"
+                f"AI {self._players[1].name}!\n\n\n\t****",
+                "  ***********************************************************",
+                "\n"
             )
             time.sleep(2)
 
@@ -109,7 +114,7 @@ class PigGame:
                 f"\n\tThis will be a {num_of_players} player game\n",
                 "\n\tFirst player to 30 or more points wins!\n",
             )
-        time.sleep(2)
+        time.sleep(1)
         # Sort players in list by order of die.roll (highest goes first)
         self._players.sort(key=lambda p: p.order, reverse=True)
 
@@ -126,9 +131,10 @@ class PigGame:
 
             # Current players score for their turn
             self.turn_score = 0
-
-            print(f"\n\t\t\t     ****{current_player.name.upper()}'S TURN***",
-                  "*\n")
+            roll_number = 1
+            print(
+                f"\t          ****{current_player.name.upper()}'S TURN***",
+                "*\n")
 
             time.sleep(1)
             roll = die.roll
@@ -162,6 +168,7 @@ class PigGame:
                         current_player.score + self.turn_score,
                         "\n",
                     )
+                    time.sleep(1)
 
             if self.turn_score != 1 and self.turn_score != 0:
                 current_player.score = current_player.score + self.turn_score
@@ -177,9 +184,10 @@ class PigGame:
         winner_index = (current_player_index - 1) % num_of_players
         current_player = self._players[winner_index]
         print(
-            "\n\n\n\t*******************************************************",
-            "*******\n\n\n"
-            f"\n\t\t\t\t****{current_player.name.upper()} Wins!****\n",
-            "\n\n\n\t*******************************************************",
-            "*******\n\n\n"
+            "\n\n\n\t",
+            "***************************************************************",
+            f"\n\n\n\n\t\t\t\t****{current_player.name.upper()} Wins!****\n",
+            "\n\n\n\t",
+            "***************************************************************",
+            "\n\n\n"
         )

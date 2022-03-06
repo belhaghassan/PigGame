@@ -15,4 +15,5 @@
 from pig_game import game
 
 if __name__ == "__main__":
-    game.PigGame().run()
+    start_game = game.PigGame()
+    start_game.run()
