@@ -17,6 +17,7 @@ from random import randrange
 
 class Die:  # pylint: disable=too-few-public-methods
     """This is a Die class"""
+
     def __init__(self):
         pass
 

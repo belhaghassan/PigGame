@@ -18,6 +18,7 @@ from pig_game import dice, player
 
 class PigGame:
     """PigGame class"""
+
     def __init__(self):
         self._players = []
         self._players_turn_score = 0
@@ -130,8 +131,10 @@ class PigGame:
             else:
                 self._players_turn_score += roll
 
-            print(f"\tIf {current_player} holds they will have\
-            {current_player.score + self._players_turn_score}\n")
+            print(
+                f"\tIf {current_player} holds they will have\
+            {current_player.score + self._players_turn_score}\n"
+            )
 
             # Checks to see if player wants to roll or hold
             if self._players_turn_score != 1 and self._players_turn_score != 0:
@@ -144,9 +147,7 @@ class PigGame:
                         self._players_turn_score = 0
                         break
                     self._players_turn_score += next_roll
-                    print(
-                        {current_player.score + self._players_turn_score}, "\n"
-                    )
+                    print({current_player.score + self._players_turn_score}, "\n")
 
             if self._players_turn_score != 1 and self._players_turn_score != 0:
                 current_player.score = current_player.score + self._players_turn_score
@@ -161,4 +162,8 @@ class PigGame:
             self.game_state()
 
         current_player = self._players[(current_player_index - 1) % num_of_players]
-        print(self._winner, f"\n\t\t\t\t{current_player.name.upper()} Wins!\n", self._winner)
+        print(
+            self._winner,
+            f"\n\t\t\t\t{current_player.name.upper()} Wins!\n",
+            self._winner,
+        )

@@ -15,6 +15,7 @@
 
 class Player:
     """Player class for Pig Game"""
+
     def __init__(self, name, order):
         self._name = name
         self._score = 0
@@ -62,6 +63,7 @@ class Player:
 
 class ComputerPlayer(Player):
     """AI player class"""
+
     def __init__(self, order, game):
         super().__init__("Zora", order)
         self._game = game

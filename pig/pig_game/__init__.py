@@ -12,4 +12,4 @@
 
 """Pig Game initialization"""
 
-__all__ = ['dice', 'game', 'player']
+__all__ = ["dice", "game", "player"]
