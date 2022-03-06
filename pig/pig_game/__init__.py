@@ -10,6 +10,6 @@
 # This is PigGame, a game of DICE and Chance
 #
 
-"""Dice class for our Pig Game."""
+"""Pig Game initialization"""
 
 __all__ = ['dice', 'game', 'player']

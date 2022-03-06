@@ -12,7 +12,9 @@
 
 """Player class for our Pig Game."""
 
+
 class Player:
+    """Player class for Pig Game"""
     def __init__(self, name, order):
         self._name = name
         self._score = 0
@@ -20,49 +22,55 @@ class Player:
 
     @property
     def name(self):
+        """Name property"""
         return self._name
 
     @property
     def order(self):
+        """Order property"""
         return self._order
 
     @property
     def score(self):
+        """Score property"""
         return self._score
 
     @score.setter
     def score(self, new_score):
-        self._score = new_score  
+        """Score setter"""
+        self._score = new_score
 
-    def rollOrHold(self):
-        decision = input(f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n"
-        "\t(Enter 'roll' or 'r' to roll the die, or just ENTER for hold)\n\t")
-        if decision == "r" or decision == "roll":
+    def roll_or_hold(self):
+        """Roll or hold methed"""
+        decision = input(
+            f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n"
+            "\t(Enter 'roll' or 'r' to roll the die, or just ENTER for hold)\n\t"
+        )
+        if decision in ("r", "roll"):
             return True
         print(f"\t{self.name} will Hold\n")
-        return False       
-
-    def am_i_human(self):
-        return True
-
-    def are_you_real(self):
-        return '\tYes, I am a human being.'
+        return False
 
     def __str__(self):
+        """Instance string"""
         return self._name
 
     def __repr__(self):
-        return f'\t{self._name} has a score of {self._score}'
+        """Class representation as string"""
+        return f"\t{self._name} has a score of {self._score}"
+
 
 class ComputerPlayer(Player):
+    """AI player class"""
     def __init__(self, order, game):
         super().__init__("Zora", order)
         self._game = game
 
-    def rollOrHold(self):
+    def roll_or_hold(self):
+        """Roll or hold methed"""
         opponent_score = self._game.opponent_score(self)
-        if 20 > self.score:
-            if self._game.turnScore() < 10:
+        if self.score < 20 or opponent_score > 20:
+            if self._game.turn_score < 10:
                 return True
         print(f"\t{self.name} will Hold\n")
         return False

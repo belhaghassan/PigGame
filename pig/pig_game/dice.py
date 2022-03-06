@@ -14,9 +14,13 @@
 
 from random import randrange
 
-class Die:
+
+class Die:  # pylint: disable=too-few-public-methods
+    """This is a Die class"""
     def __init__(self):
         pass
 
+    @property
     def roll(self):
+        """This is a method that rolls the die"""
         return randrange(1, 6)

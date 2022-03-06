@@ -12,32 +12,15 @@
 
 """Game class for our Pig Game."""
 
-from unicodedata import name
-from .player import ComputerPlayer, Player
-from .dice import Die
 import time
+from pig_game import dice, player
+
 
 class PigGame:
+    """PigGame class"""
     def __init__(self):
         self._players = []
-        self._playersTurnScore = 0
-
-    def opponent_score(self, opponent):   
-        for player in self._players:
-            if opponent != player:
-                return player.score
-    
-    def turnScore(self):
-        return self._playersTurnScore
-
-    def gameStats(self):
-        print("\n\t***************************************************************")
-        print("\t\t\t\tGame Stats\n")
-        for player in self._players:
-            print(f"\n\t\t      Player {player.name} has a score of {player.score}.")
-        print("\n\t***************************************************************")
-
-    def run(self):
+        self._players_turn_score = 0
         welcome = """
         ***************************************************************\n
                             WELCOME TO PIG GAME!
@@ -45,12 +28,12 @@ class PigGame:
 
                     **********************************            
                     *             _______            * 
-                    *           /\       \           * 
-                    *          /()\   ()  \          * 
-                    *         /    \_______\         * 
-                    *         \    /()     /         * 
-                    *          \()/   ()  /          *
-                    *           \/_____()/           *
+                    *           /\\       \\           * 
+                    *          /()\\   ()  \\          * 
+                    *         /    \\_______\\         * 
+                    *         \\    /()     /         * 
+                    *          \\()/   ()  /          *
+                    *           \\/_____()/           *
                     *                                *
                     *       Art by Joan G. Stark     *
                     **********************************
@@ -60,36 +43,61 @@ class PigGame:
         ***************************************************************\n
         """
         print(welcome)
-        
-        # Ask user how many players are going to play?
-        print(f"\tHow many players would like to play? ", end = " ")
-        numOfPlayers = int(f"{input()}")
+        self._winner = """\n
+        **************************************************************
+        **************************************************************
+        **************************************************************\n"""
 
-        # loop to 
-        while (numOfPlayers > 4 or numOfPlayers < 1) and numOfPlayers.isdigit():
-            print("\n\tInvalid number of players Entered\n\n", end="")
-            print(f"\tHow many players would like to play? ", end = " ")
-            numOfPlayers = int(f"{input()}")
+    def opponent_score(self, opponent):
+        """Opponent score getter"""
+        for plyr in self._players:
+            if opponent != plyr:
+                opponent_score = plyr.score
+        return opponent_score
+
+    @property
+    def turn_score(self):
+        """Current turn score property"""
+        return self._players_turn_score
+
+    def game_state(self):
+        """Game state method"""
+        print("\n\t***************************************************************")
+        print("\t\t\t\tGame Stats\n")
+        for plyr in self._players:
+            print(f"\n\t\t      Player {plyr.name} has a score of {plyr.score}.")
+        print("\n\t***************************************************************")
+
+    def run(self):
+        """Main piggame run function"""
+
+        # Ask user how many players are going to play?
+        print("\tHow many players would like to play? ", end=" ")
+        num_of_players = int(f"{input()}")
 
         # Create Die class instance to use for gameplay
-        die = Die()
+        die = dice.Die()
 
-        for plyr in range(numOfPlayers):
-            playerName =  input(f"\n\tEnter Player {plyr + 1}'s name: ")
-            self._players.append(Player(playerName, die.roll()))
-        
-        if numOfPlayers == 1:
-            numOfPlayers = 2
-            self._players.append(ComputerPlayer(die.roll(), self))
+        for plyr in range(num_of_players):
+            player_name = input(f"\n\tEnter Player {plyr + 1}'s name: ")
+            self._players.append(player.Player(player_name, die.roll()))
 
-            print(f"\n\t{self._players[0].name}, you will be playing against AI Zora!\n")
-            print("\n\t***************************************************************\n")
+        if num_of_players == 1:
+            num_of_players = 2
+            self._players.append(player.ComputerPlayer(die.roll(), self))
 
-        else:       
+            print(
+                f"\n\t{self._players[0].name}, you will be playing against AI Zora!\n"
+            )
+            print(
+                "\n\t***************************************************************\n"
+            )
+
+        else:
             print("\n\tWelcome Players: ", end="")
-            for player in self._players:
-                print(f"{player.name.upper()} ", end="")
-            print(f"\n\tThis will be a {numOfPlayers} player game")
+            for plyr in self._players:
+                print(f"{plyr.name.upper()} ", end="")
+            print(f"\n\tThis will be a {num_of_players} player game")
             print("\n\tFirst player to 30 or more points wins!\n")
         # Sort players in list by order of die.roll (highest goes first)
         self._players.sort(key=lambda p: p.order, reverse=True)
@@ -99,67 +107,58 @@ class PigGame:
 
         # Top score to end game when a player's score surpasses 30
         top_score = 0
-        currentPlayer = self._players[current_player_index]
-        
-        print(f"\t\t\t     {currentPlayer.name.upper()} WILL GO FIRST!")
-        while(top_score < 30):
-            
-            # Current players score for their turn
-            self._playersTurnScore = 0
+        current_player = self._players[current_player_index]
 
-            print(""
-            "\n\t---------------------------------------------------------------\n"
-            f"\t\t\t\t{currentPlayer.name.upper()}'S TURN\n"
-            # f"\t\t     {currentPlayer.__repr__()}"
-            "\t---------------------------------------------------------------\n")
+        print(f"\t\t\t     {current_player.name.upper()} WILL GO FIRST!")
+        while top_score < 30:
+
+            # Current players score for their turn
+            self._players_turn_score = 0
+
+            print(
+                ""
+                "\n\t---------------------------------------------------------------\n"
+                f"\t\t\t\t{current_player.name.upper()}'S TURN\n"
+                "\t---------------------------------------------------------------\n"
+            )
 
             roll = die.roll()
-            print(f"\t{currentPlayer} rolled a {roll}")
-            print(f"\t{currentPlayer} Turn Score: ", self._playersTurnScore)
+            print(f"\t{current_player} rolled a {roll}")
             if roll == 1:
-                print(f"\t{currentPlayer} loses turn!\n")
-                
-            else:
-                self._playersTurnScore += roll
+                print(f"\t{current_player} loses turn!\n")
 
-            print(f"\t{currentPlayer} Turn Score after roll: ", self._playersTurnScore)
-            print(f"\tIf {currentPlayer} holds they will have {currentPlayer.score + self._playersTurnScore}\n")
+            else:
+                self._players_turn_score += roll
+
+            print(f"\tIf {current_player} holds they will have\
+            {current_player.score + self._players_turn_score}\n")
 
             # Checks to see if player wants to roll or hold
-            if self._playersTurnScore != 1 and self._playersTurnScore != 0:
-                while currentPlayer.rollOrHold():
-                    nextRoll = die.roll()
-                    print(f"\n\t{currentPlayer} rolled {nextRoll}")
-                    print(f"\t{currentPlayer} Turn Score: ", self._playersTurnScore)
+            if self._players_turn_score != 1 and self._players_turn_score != 0:
+                while current_player.roll_or_hold():
+                    next_roll = die.roll()
+                    print(f"\n\t{current_player} rolled {next_roll}")
 
-                    if nextRoll == 1:
-                        print(f"\t{currentPlayer} loses turn!")
-                        self._playersTurnScore = 0
+                    if next_roll == 1:
+                        print(f"\t{current_player} loses turn!")
+                        self._players_turn_score = 0
                         break
-                        
-                    else:
-                        self._playersTurnScore += nextRoll
-                        # print(f"\t{currentPlayer} currently has {playersTurnScore} points this turn\n")
-                    print(f"\t{currentPlayer} Turn Score after roll: ", self._playersTurnScore)
-                    print(f"\tIf {currentPlayer} holds they will have {currentPlayer.score + self._playersTurnScore}\n")
+                    self._players_turn_score += next_roll
+                    print(
+                        {current_player.score + self._players_turn_score}, "\n"
+                    )
 
-            if self._playersTurnScore != 1 and self._playersTurnScore != 0:
-                currentPlayer.score = currentPlayer.score + self._playersTurnScore
+            if self._players_turn_score != 1 and self._players_turn_score != 0:
+                current_player.score = current_player.score + self._players_turn_score
 
-            if currentPlayer.score > top_score:
-                top_score = currentPlayer.score
-                      
+            if current_player.score > top_score:
+                top_score = current_player.score
+
             time.sleep(2)
-            current_player_index = (current_player_index + 1) % numOfPlayers
-            currentPlayer = self._players[current_player_index]
-            self._playersTurnScore = 0
-            self.gameStats()
+            current_player_index = (current_player_index + 1) % num_of_players
+            current_player = self._players[current_player_index]
+            self._players_turn_score = 0
+            self.game_state()
 
-        currentPlayer = self._players[(current_player_index - 1) % numOfPlayers] 
-
-        winner = """
-
-        **************************************************************
-        **************************************************************
-        **************************************************************\n"""
-        print(winner,f"\n\t\t\t\t{currentPlayer.name.upper()} Wins!\n", winner)
+        current_player = self._players[(current_player_index - 1) % num_of_players]
+        print(self._winner, f"\n\t\t\t\t{current_player.name.upper()} Wins!\n", self._winner)
