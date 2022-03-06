@@ -12,6 +12,7 @@
 
 """Game class for our Pig Game."""
 
+import random
 import time
 from pig_game import dice, player
 
@@ -47,10 +48,9 @@ class PigGame:
 
     def opponent_score(self, opponent):
         """Opponent score getter"""
-        for plyr in self._players:
-            if opponent != plyr:
-                opponent_score = plyr.score
-        return opponent_score
+        for player in self._players:
+            if opponent != player:
+                return player.score
 
     @property
     def turn_score(self):
@@ -73,7 +73,7 @@ class PigGame:
 
     def run(self):
         """Main piggame run function"""
-
+        
         # Ask user how many players are going to play?
         print("\tHow many players would like to play? ", end=" ")
         num_of_players = int(f"{input()}")
@@ -85,14 +85,15 @@ class PigGame:
             player_name = input(f"\n\tEnter Player {plyr + 1}'s name: ")
             self._players.append(player.Player(player_name, die.roll))
 
-        if num_of_players == 1:
+        if num_of_players < 2:
             num_of_players = 2
-            self._players.append(player.ComputerPlayer(die.roll, self))
-
+            ai_players = ["Optimus Prime", "Megatron", "Zora", "Skynet"]
+            self._players.append(player.ComputerPlayer(die.roll, random.choice(ai_players), self))
             print(
-                f"\n\t{self._players[0].name}, you will be playing against AI Zora!\n\n"
+                f"\n\t{self._players[0].name}, you will be playing against AI {self._players[1].name}!\n\n"
                 "\n\t***************************************************************\n"
             )
+            time.sleep(2)
 
         else:
             print("\n\tWelcome Players: ", end="")
@@ -102,6 +103,7 @@ class PigGame:
                 f"\n\tThis will be a {num_of_players} player game\n",
                 "\n\tFirst player to 30 or more points wins!\n",
             )
+        time.sleep(2)
         # Sort players in list by order of die.roll (highest goes first)
         self._players.sort(key=lambda p: p.order, reverse=True)
 
@@ -113,6 +115,7 @@ class PigGame:
         current_player = self._players[current_player_index]
 
         print(f"\t\t\t     {current_player.name.upper()} WILL GO FIRST!")
+        time.sleep(1)
         while top_score < 30:
 
             # Current players score for their turn
@@ -120,16 +123,18 @@ class PigGame:
 
             print(f"\n\t\t\t     ****{current_player.name.upper()}'S TURN****\n")
 
+            time.sleep(1)
             roll = die.roll
             print(f"\t{current_player} rolled a {roll}")
             if roll == 1:
+                time.sleep(1)
                 print(f"\t{current_player} loses turn!\n")
 
             else:
                 self.turn_score += roll
 
             print(
-                f"\tIf {current_player} holds they will have ",
+                f"\n\tIf {current_player} holds they will have ",
                 current_player.score + self.turn_score,
                 "\n",
             )
@@ -139,14 +144,14 @@ class PigGame:
                 while current_player.roll_or_hold():
                     next_roll = die.roll
                     print(f"\n\t{current_player} rolled a {next_roll}")
-
+                    time.sleep(1)
                     if next_roll == 1:
                         print(f"\t{current_player} loses turn!")
                         self.turn_score = 0
                         break
                     self.turn_score += next_roll
                     print(
-                        f"\tIf {current_player} holds they will have ",
+                        f"\n\tIf {current_player} holds they will have ",
                         current_player.score + self.turn_score,
                         "\n",
                     )
@@ -157,7 +162,6 @@ class PigGame:
             if current_player.score > top_score:
                 top_score = current_player.score
 
-            time.sleep(2)
             current_player_index = (current_player_index + 1) % num_of_players
             current_player = self._players[current_player_index]
             self.turn_score = 0

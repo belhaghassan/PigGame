@@ -64,8 +64,8 @@ class Player:
 class ComputerPlayer(Player):
     """AI player class"""
 
-    def __init__(self, order, game):
-        super().__init__("Zora", order)
+    def __init__(self, order, name, game):
+        super().__init__(name, order)
         self._game = game
 
     def roll_or_hold(self):
