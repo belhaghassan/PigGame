@@ -7,6 +7,8 @@
 #
 # Lab 00-02
 #
+# This is PigGame, a game of DICE and Chance
+#
 
 """Game class for our Pig Game."""
 
@@ -18,20 +20,24 @@ import time
 class PigGame:
     def __init__(self):
         self._players = []
+        self._playersTurnScore = 0
 
     def opponent_score(self, opponent):   
         for player in self._players:
             if opponent != player:
                 return player.score
+    
+    def turnScore(self):
+        return self._playersTurnScore
 
     def gameStats(self):
-        print("\t------------------------------------------------------------")
+        print("\n\t***************************************************************")
+        print("\t\t\t\tGame Stats\n")
         for player in self._players:
-            print(f"\n\t\tPlayer {player.name} has a score of {player.score}.")
-        print("\t------------------------------------------------------------")
+            print(f"\n\t\t      Player {player.name} has a score of {player.score}.")
+        print("\n\t***************************************************************")
 
     def run(self):
-        CONSOLE_WIDTH = os.get_terminal_size().columns
         welcome = """
         ***************************************************************\n
                             WELCOME TO PIG GAME!
@@ -99,38 +105,47 @@ class PigGame:
         while(top_score < 30):
             
             # Current players score for their turn
-            playersTurnScore = 0
+            self._playersTurnScore = 0
 
             print(""
             "\n\t---------------------------------------------------------------\n"
             f"\t\t\t\t{currentPlayer.name.upper()}'S TURN\n"
-            f"\t\t    {currentPlayer.__repr__()}"
-            "\n\t---------------------------------------------------------------\n")
+            # f"\t\t     {currentPlayer.__repr__()}"
+            "\t---------------------------------------------------------------\n")
 
             roll = die.roll()
             print(f"\t{currentPlayer} rolled a {roll}")
-            if roll != 1:
-                playersTurnScore += roll
-                print(f"\t{currentPlayer} currently has {currentPlayer.score + playersTurnScore} points\n")
-            else:
+            print(f"\t{currentPlayer} Turn Score: ", self._playersTurnScore)
+            if roll == 1:
                 print(f"\t{currentPlayer} loses turn!\n")
-                playersTurnScore = 0
-                print(f"\t\t\t{repr(currentPlayer)}\n")
+                
+            else:
+                self._playersTurnScore += roll
+
+            print(f"\t{currentPlayer} Turn Score after roll: ", self._playersTurnScore)
+            print(f"\tIf {currentPlayer} holds they will have {currentPlayer.score + self._playersTurnScore}\n")
 
             # Checks to see if player wants to roll or hold
-            while playersTurnScore != 1 and currentPlayer.rollOrHold():
-                nextRoll = die.roll()
-                print(f"\n\t{currentPlayer} rolled {nextRoll}")
+            if self._playersTurnScore != 1 and self._playersTurnScore != 0:
+                while currentPlayer.rollOrHold():
+                    nextRoll = die.roll()
+                    print(f"\n\t{currentPlayer} rolled {nextRoll}")
+                    print(f"\t{currentPlayer} Turn Score: ", self._playersTurnScore)
 
-                if nextRoll != 1:
-                    playersTurnScore += roll
-                    print(f"\t{currentPlayer} currently has {currentPlayer.score + playersTurnScore} points\n")
-                else:
-                    print(f"\t{currentPlayer} loses turn!")
-                    playersTurnScore = 0
-                    break
+                    if nextRoll == 1:
+                        print(f"\t{currentPlayer} loses turn!")
+                        self._playersTurnScore = 0
+                        break
+                        
+                    else:
+                        self._playersTurnScore += nextRoll
+                        # print(f"\t{currentPlayer} currently has {playersTurnScore} points this turn\n")
+                    print(f"\t{currentPlayer} Turn Score after roll: ", self._playersTurnScore)
+                    print(f"\tIf {currentPlayer} holds they will have {currentPlayer.score + self._playersTurnScore}\n")
 
-            currentPlayer.score = currentPlayer.score + playersTurnScore
+
+            if self._playersTurnScore != 1 and self._playersTurnScore != 0:
+                currentPlayer.score = currentPlayer.score + self._playersTurnScore
 
             if currentPlayer.score > top_score:
                 top_score = currentPlayer.score
@@ -138,18 +153,21 @@ class PigGame:
             time.sleep(2)
             current_player_index = (current_player_index + 1) % numOfPlayers
 
-            print("\n\t**************************************************************"
-            f"\n\t\t     {repr(currentPlayer)}"
-            "\n\t**************************************************************")
+            # print("\n\t**************************************************************"
+            # # f"\n\t\t     {repr(currentPlayer)}"
+            # "\n\t**************************************************************")
 
             currentPlayer = self._players[current_player_index]
-
+            self._playersTurnScore = 0
             self.gameStats()
 
-        print("\t**************************************************************"
-        "\t**************************************************************"
-        "\t**************************************************************\n\n"
-        f"\t\t      {currentPlayer.name.upper()} Wins!\n\n"
-        "\t**************************************************************"
-        "\t**************************************************************"
-        "\t**************************************************************")
+        currentPlayer = self._players[(current_player_index - 1) % numOfPlayers] 
+
+        winner = """
+
+        **************************************************************
+        **************************************************************
+        **************************************************************\n"""
+        print(winner,f"\n\t\t\t\t{currentPlayer.name.upper()} Wins!\n", winner)
+
+        

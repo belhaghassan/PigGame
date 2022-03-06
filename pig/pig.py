@@ -7,6 +7,9 @@
 #
 # Lab 00-02
 #
+# This is PigGame, a game of DICE and Chance
+#
+
 """
 This is a game of Dice with 1 - 4 players playing up to 30
 """

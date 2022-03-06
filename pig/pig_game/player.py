@@ -7,6 +7,8 @@
 #
 # Lab 00-02
 #
+# This is PigGame, a game of DICE and Chance
+#
 
 """Player class for our Pig Game."""
 
@@ -33,7 +35,7 @@ class Player:
         self._score = new_score  
 
     def rollOrHold(self):
-        decision = input(f"\t\t\tWould {self.name} like to Hold or Roll ? \n"
+        decision = input(f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n"
         "\t(Enter 'roll' or 'r' to roll the die, or just ENTER for hold)\n\t")
         if decision == "r" or decision == "roll":
             return True
@@ -59,7 +61,8 @@ class ComputerPlayer(Player):
 
     def rollOrHold(self):
         opponent_score = self._game.opponent_score(self)
-        if opponent_score > self.score and opponent_score > 20:
-            return True
+        if 20 > self.score:
+            if self._game.turnScore() < 10:
+                return True
         print(f"\t{self.name} will Hold\n")
         return False

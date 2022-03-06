@@ -7,6 +7,8 @@
 #
 # Lab 00-02
 #
+# This is PigGame, a game of DICE and Chance
+#
 
 """Dice class for our Pig Game."""
 
