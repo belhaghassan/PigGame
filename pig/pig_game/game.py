@@ -26,10 +26,10 @@ class PigGame:
         welcome = """
         ***************************************************************\n
                             WELCOME TO PIG GAME!
-                               A GAME OF DICE 
+                                A GAME OF DICE 
 
                     **********************************            
-                    *             _______            * 
+                    *             _______            *
                     *           /\\       \\           * 
                     *          /()\\   ()  \\          * 
                     *         /    \\_______\\         * 
@@ -64,16 +64,17 @@ class PigGame:
     def game_state(self):
         """Game state method"""
         print(
-            "\n\t***************************************************************\n",
-            "\t\t\t\tGAME STATE",
+            "\n\t*********************************************************",
+            "******\n\t\t\t\tGAME STATE",
         )
         for plyr in self._players:
-            print(f"\n\t\t      Player {plyr.name} has a score of {plyr.score}.")
-        print("\n\t***************************************************************")
+            print(f"\n\t\t\tPlayer {plyr.name} has a score of {plyr.score}.")
+        print("\n\t*********************************************************",
+        "******")
 
     def run(self):
         """Main piggame run function"""
-        
+
         # Ask user how many players are going to play?
         print("\tHow many players would like to play? ", end=" ")
         num_of_players = int(f"{input()}")
@@ -88,10 +89,15 @@ class PigGame:
         if num_of_players < 2:
             num_of_players = 2
             ai_players = ["Optimus Prime", "Megatron", "Zora", "Skynet"]
-            self._players.append(player.ComputerPlayer(die.roll, random.choice(ai_players), self))
+            ai = random.choice(ai_players)
+            self._players.append(
+                player.ComputerPlayer(die.roll, ai, self)
+            )
             print(
-                f"\n\t{self._players[0].name}, you will be playing against AI {self._players[1].name}!\n\n"
-                "\n\t***************************************************************\n"
+                f"\n\t{self._players[0].name}, you will be playing against ",
+                f"AI {self._players[1].name}",
+                "!\n\n\n\t**************************************************",
+                "*************\n"
             )
             time.sleep(2)
 
@@ -121,7 +127,8 @@ class PigGame:
             # Current players score for their turn
             self.turn_score = 0
 
-            print(f"\n\t\t\t     ****{current_player.name.upper()}'S TURN****\n")
+            print(f"\n\t\t\t     ****{current_player.name.upper()}'S TURN***",
+            "*\n")
 
             time.sleep(1)
             roll = die.roll
@@ -167,9 +174,12 @@ class PigGame:
             self.turn_score = 0
             self.game_state()
 
-        current_player = self._players[(current_player_index - 1) % num_of_players]
+        winner_index = (current_player_index - 1) % num_of_players
+        current_player = self._players[winner_index]
         print(
-            "\n\n\n\t**************************************************************\n\n\n",
+            "\n\n\n\t*******************************************************",
+            "*******\n\n\n"
             f"\n\t\t\t\t****{current_player.name.upper()} Wins!****\n",
-            "\n\n\n\t**************************************************************\n\n\n",
+            "\n\n\n\t*******************************************************",
+            "*******\n\n\n"
         )
