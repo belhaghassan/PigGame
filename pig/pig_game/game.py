@@ -26,14 +26,14 @@ class PigGame:
         welcome = """
         ***************************************************************\n
                             WELCOME TO PIG GAME!
-                                A GAME OF DICE 
+                                A GAME OF DICE
 
-                    **********************************            
+                    **********************************
                     *             _______            *
-                    *           /\\       \\           * 
-                    *          /()\\   ()  \\          * 
-                    *         /    \\_______\\         * 
-                    *         \\    /()     /         * 
+                    *           /\\       \\           *
+                    *          /()\\   ()  \\          *
+                    *         /    \\_______\\         *
+                    *         \\    /()     /         *
                     *          \\()/   ()  /          *
                     *           \\/_____()/           *
                     *                                *
@@ -70,7 +70,7 @@ class PigGame:
         for plyr in self._players:
             print(f"\n\t\t\tPlayer {plyr.name} has a score of {plyr.score}.")
         print("\n\t*********************************************************",
-        "******")
+              "******")
 
     def run(self):
         """Main piggame run function"""
@@ -128,7 +128,7 @@ class PigGame:
             self.turn_score = 0
 
             print(f"\n\t\t\t     ****{current_player.name.upper()}'S TURN***",
-            "*\n")
+                  "*\n")
 
             time.sleep(1)
             roll = die.roll
