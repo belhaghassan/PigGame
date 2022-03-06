@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Bilal El-haghassan
-# CPSC 386-4
+# CPSC 386-04
 # 2022-02-28
 # bilalelhaghassan@csu.fullerton.edu
 # @belhaghassan
@@ -20,4 +20,3 @@ class Die:
 
     def roll(self):
         return randrange(1, 6)
-    

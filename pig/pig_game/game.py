@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Bilal El-haghassan
-# CPSC 386-4
+# CPSC 386-04
 # 2022-02-28
 # bilalelhaghassan@csu.fullerton.edu
 # @belhaghassan
@@ -169,5 +169,3 @@ class PigGame:
         **************************************************************
         **************************************************************\n"""
         print(winner,f"\n\t\t\t\t{currentPlayer.name.upper()} Wins!\n", winner)
-
-        
