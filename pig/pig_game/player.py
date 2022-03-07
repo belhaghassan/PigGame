@@ -48,7 +48,7 @@ class Player:
         print(
             f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n",
         )
-        time.sleep(.5)
+        time.sleep(0.5)
         print(
             "\t(Enter 'roll' or 'r' to roll the die, or just",
             "ENTER anykey for hold)\n\t",

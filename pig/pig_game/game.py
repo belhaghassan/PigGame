@@ -78,10 +78,10 @@ class PigGame:
             "***************************************************************",
             "\n\t\t\t\tGAME STATE",
         )
-        time.sleep(.5)
+        time.sleep(0.5)
         for plyr in self._players:
             print(f"\n\t\t\tPlayer {plyr.name} has a score of {plyr.score}.")
-        time.sleep(.5)
+        time.sleep(0.5)
         print(
             "\n\t",
             "***************************************************************",
@@ -175,7 +175,7 @@ class PigGame:
             # Checks to see if player wants to roll or hold
             if self.turn_score != 1 and self.turn_score != 0:
                 while current_player.roll_or_hold():
-                    time.sleep(.5)
+                    time.sleep(0.5)
                     self.die.roll_die()
                     next_roll = self.die.roll
                     roll_number += 1
@@ -183,7 +183,7 @@ class PigGame:
                         f"\n\t{current_player}'s roll #",
                         f"{roll_number}: {next_roll}",
                     )
-                    time.sleep(.5)
+                    time.sleep(0.5)
                     if next_roll == 1:
                         print(f"\t{current_player} loses turn!")
                         self.turn_score = 0
