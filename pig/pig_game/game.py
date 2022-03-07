@@ -24,6 +24,8 @@ class PigGame:
     def __init__(self):
         self._players = []
         self._turn_score = 0
+        self._die = dice.Die()
+
         welcome = """
         ***************************************************************\n
                             WELCOME TO PIG GAME!
@@ -49,9 +51,15 @@ class PigGame:
 
     def opponent_score(self, opponent):
         """Opponent score getter"""
-        for player in self._players:
-            if opponent != player:
-                return player.score
+        for plyr in self._players:
+            if opponent == plyr:
+                continue
+            return plyr.score
+
+    @property
+    def die(self):
+        """Return Pig game die instance"""
+        return self._die
 
     @property
     def turn_score(self):
@@ -73,47 +81,49 @@ class PigGame:
             print(f"\n\t\t\tPlayer {plyr.name} has a score of {plyr.score}.")
         print(
             "\n\t",
-            "***************************************************************") 
+            "***************************************************************")
+        time.sleep(1)
+
+    def player_input(self, num_of_players):
+        """Take in and save player names"""
+        for plyr in range(num_of_players):
+            player_name = input(f"\n\tEnter Player {plyr + 1}'s name: ")
+            self._players.append(player.Player(player_name, self.die.roll))
+
+        if num_of_players < 2:
+            num_of_players = 2
+            ai_players = ["Optimus Prime", "Megatron", "Zora", "Skynet"]
+            bot = random.choice(ai_players)
+            self._players.append(
+                player.ComputerPlayer(self.die.roll, bot, self)
+            )
+            print(
+                f"\n\t{self._players[0].name}, you will be playing against ",
+                f"AI {self._players[1].name}!\n\n\n",
+                "\n"
+            )
+
+        print("       *\t*\t*\t*\t*\t*\t*\t*\t*\n",
+              "\n\t\t\tWelcome Players: \n\t\t\t", end="")
+        for plyr in self._players:
+            print(f"     {plyr.name.upper()} ", end="")
+        print(
+            f"\n\t\tThis will be a {num_of_players} player game\n",
+            "\n\tFirst player to 30 or more points wins!\n",
+        )
         time.sleep(1)
 
     def run(self):
         """Main piggame run function"""
 
         # Ask user how many players are going to play?
-        print("\tHow many players would like to play? ", 
+        print("\tHow many players would like to play? ",
               end=" ")
         num_of_players = int(f"{input()}")
 
-        # Create Die class instance to use for gameplay
-        die = dice.Die()
+        # Take and save player names
+        self.player_input(num_of_players)
 
-        for plyr in range(num_of_players):
-            player_name = input(f"\n\tEnter Player {plyr + 1}'s name: ")
-            self._players.append(player.Player(player_name, die.roll))
-
-        if num_of_players < 2:
-            num_of_players = 2
-            ai_players = ["Optimus Prime", "Megatron", "Zora", "Skynet"]
-            ai = random.choice(ai_players)
-            self._players.append(
-                player.ComputerPlayer(die.roll, ai, self)
-            )
-            print(
-                f"\n\t{self._players[0].name}, you will be playing against ",
-                f"AI {self._players[1].name}!\n\n\n\t****",
-                "  ***********************************************************",
-                "\n"
-            )
-            time.sleep(2)
-
-        else:
-            print("\n\tWelcome Players: ", end="")
-            for plyr in self._players:
-                print(f"{plyr.name.upper()} ", end="")
-            print(
-                f"\n\tThis will be a {num_of_players} player game\n",
-                "\n\tFirst player to 30 or more points wins!\n",
-            )
         time.sleep(1)
         # Sort players in list by order of die.roll (highest goes first)
         self._players.sort(key=lambda p: p.order, reverse=True)
@@ -133,12 +143,12 @@ class PigGame:
             self.turn_score = 0
             roll_number = 1
             print(
-                f"\t          ****{current_player.name.upper()}'S TURN***",
+                f"\t\t\t  ****{current_player.name.upper()}'S TURN***",
                 "*\n")
 
             time.sleep(1)
-            roll = die.roll
-            print(f"\t{current_player} rolled a {roll}")
+            roll = self.die.roll
+            print(f"\t{current_player}'s roll # {roll_number}: {roll}")
             if roll == 1:
                 time.sleep(1)
                 print(f"\t{current_player} loses turn!\n")
@@ -155,8 +165,9 @@ class PigGame:
             # Checks to see if player wants to roll or hold
             if self.turn_score != 1 and self.turn_score != 0:
                 while current_player.roll_or_hold():
-                    next_roll = die.roll
-                    print(f"\n\t{current_player} rolled a {next_roll}")
+                    next_roll = self.die.roll
+                    roll_number += 1
+                    print(f"\t{current_player}'s roll # {roll_number}: {roll}")
                     time.sleep(1)
                     if next_roll == 1:
                         print(f"\t{current_player} loses turn!")
@@ -179,6 +190,7 @@ class PigGame:
             current_player_index = (current_player_index + 1) % num_of_players
             current_player = self._players[current_player_index]
             self.turn_score = 0
+            roll_number = 1
             self.game_state()
 
         winner_index = (current_player_index - 1) % num_of_players
