@@ -45,8 +45,7 @@ class Player:
 
     def roll_or_hold(self):
         """Roll or hold methed"""
-        print(
-            f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n")
+        print(f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n")
         time.sleep(0.5)
         print(
             "\t(Enter 'roll' or 'r' to roll the die, or just",
