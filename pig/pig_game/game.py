@@ -24,7 +24,7 @@ class PigGame:
     def __init__(self):
         self._players = []
         self._turn_score = 0
-        self._num_of_players = 2
+        self._num_of_players = 0
         self._die = dice.Die()
 
         welcome = """
@@ -116,9 +116,9 @@ class PigGame:
             end="",
         )
         for plyr in self._players:
-            print(f"\t{plyr.name.upper()} \n")
+            print(f"\t{plyr.name.upper()}")
             if plyr != self._players[self._num_of_players - 1]:
-                print("\t  &\n")
+                print("\t  &")
         print(
             f"\n\tThis will be a {num_of_players} player game\n",
             "\n\tFirst player to 30 or more points wins!\n",
@@ -129,8 +129,9 @@ class PigGame:
         """Main piggame run function"""
 
         # Ask user how many players are going to play?
-        print("\tHow many players would like to play? ", end=" ")
-        self._num_of_players = int(f"{input()}")
+        while self._num_of_players < 1 or self._num_of_players > 4:
+            print("\tHow many players would like to play? [1 - 4]", end=" ")
+            self._num_of_players = int(f"{input()}")
 
         # Take and save player names
         self.player_input(self._num_of_players)
