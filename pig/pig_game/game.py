@@ -171,7 +171,7 @@ class PigGame:
                     roll_number += 1
                     print(
                         f"\t{current_player}'s roll #",
-                        f"{roll_number}: {next_roll}"
+                        f"{roll_number}: {next_roll}",
                     )
                     time.sleep(1)
                     if next_roll == 1:
