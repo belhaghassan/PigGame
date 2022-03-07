@@ -5,12 +5,14 @@
 # bilalelhaghassan@csu.fullerton.edu
 # @belhaghassan
 #
-# Lab 00-02
+# Lab 02-00
 #
 # This is PigGame, a game of DICE and Chance
 #
 
 """Player class for our Pig Game."""
+
+import time
 
 
 class Player:
@@ -43,10 +45,15 @@ class Player:
 
     def roll_or_hold(self):
         """Roll or hold methed"""
-        decision = input(
-            f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n"
-            "\t(Enter 'roll' or 'r' to roll the die, or just ENTER for hold)\n\t"
+        print(
+            f"\n\t\t\tWould {self.name} like to Hold or Roll ? \n",
         )
+        time.sleep(.5)
+        print(
+            "\t(Enter 'roll' or 'r' to roll the die, or just",
+            "ENTER anykey for hold)\n\t",
+        )
+        decision = input("\t")
         if decision in ("r", "roll"):
             return True
         print(f"\t{self.name} will Hold\n")

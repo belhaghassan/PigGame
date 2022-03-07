@@ -5,7 +5,7 @@
 # bilalelhaghassan@csu.fullerton.edu
 # @belhaghassan
 #
-# Lab 00-02
+# Lab 02-00
 #
 # This is PigGame, a game of DICE and Chance
 #
@@ -15,13 +15,17 @@
 from random import randrange
 
 
-class Die:  # pylint: disable=too-few-public-methods
+class Die:
     """This is a Die class"""
 
     def __init__(self):
-        pass
+        self._roll = 0
+
+    def roll_die(self):
+        """This is a method that rolls the die"""
+        self._roll = randrange(1, 6)
 
     @property
     def roll(self):
-        """This is a method that rolls the die"""
-        return randrange(1, 6)
+        """A method print roll number"""
+        return self._roll

@@ -5,7 +5,7 @@
 # bilalelhaghassan@csu.fullerton.edu
 # @belhaghassan
 #
-# Lab 00-02
+# Lab 02-00
 #
 # This is PigGame, a game of DICE and Chance
 #
