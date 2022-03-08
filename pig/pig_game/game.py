@@ -14,7 +14,7 @@
 
 import random
 import time
-from pig_game import dice
+from pig_game import die
 from pig_game import player
 
 
@@ -25,7 +25,7 @@ class PigGame:
         self._players = []
         self._turn_score = 0
         self._num_of_players = 0
-        self._die = dice.Die()
+        self._die = die.Die()
 
         welcome = """
         ***************************************************************\n
@@ -129,9 +129,13 @@ class PigGame:
         """Main piggame run function"""
 
         # Ask user how many players are going to play?
-        while self._num_of_players < 1 or self._num_of_players > 4:
+        while True:
             print("\tHow many players would like to play? [1 - 4]", end=" ")
             self._num_of_players = int(f"{input()}")
+            if self._num_of_players <= 4 and self._num_of_players >= 1:
+                break
+            print("\tInvalid number of players. Try again.\n")
+
 
         # Take and save player names
         self.player_input(self._num_of_players)
