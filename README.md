@@ -29,7 +29,7 @@ In our version of the game, we shall make a few changes to the rules. Since it i
 ## Requirements
 
 To run this terminal based game:
-`git clone https://github.com/belhaghassan/PigGame.git`
-`cd pig`
-`python pig.py`
+1. `git clone https://github.com/belhaghassan/PigGame.git`
+2. `cd pig`
+3. `python pig.py`
 
