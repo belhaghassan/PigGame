@@ -136,7 +136,6 @@ class PigGame:
                 break
             print("\tInvalid number of players. Try again.\n")
 
-
         # Take and save player names
         self.player_input(self._num_of_players)
 
